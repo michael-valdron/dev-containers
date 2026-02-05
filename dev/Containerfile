@@ -40,5 +40,11 @@ ENV PATH="~/.local/bin:$PATH"
 # Set working directory
 WORKDIR /project
 
+# Labels
+LABEL org.label-schema.schema-version="1.0"
+LABEL org.label-schema.build-date=${BUILD_DATE}
+LABEL org.label-schema.name="michaelvaldron/dev"
+LABEL org.label-schema.description="Base developer container image"
+
 # "CMD" runs an initial command on container startup
 CMD bash
