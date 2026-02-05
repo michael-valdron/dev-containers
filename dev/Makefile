@@ -1,12 +1,13 @@
 # Author: Michael Valdron
 
-build-local-dev:
-	docker build --rm -t mvaldron/dev .
+ifndef CONTAINER_ENGINE
+	CONTAINER_ENGINE=docker
+endif
 
-build-gcp-dev:
-	if [ -z "$(PROJECT_ID)" ]; then \
-echo 'ERROR: A PROJECT_ID must be specified.' && exit; else \
-gcloud builds submit --timeout "1h0m0s" \
---config="gcpbuild.yaml" .; fi
+build-local:
+	$(CONTAINER_ENGINE) build --rm --no-cache -t mvaldron/dev .
 
-.PHONY: build-local-dev build-gcp-dev
+run-local-shell: build-local
+	$(CONTAINER_ENGINE) run --rm -it localhost/mvaldron/dev
+
+.PHONY: build-local run-local-shell
