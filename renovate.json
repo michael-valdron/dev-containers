@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "baseBranches": ["master"],
-  "enabledManagers": ["dockerfile", "github-actions", "custom.regex", "npm"],
+  "enabledManagers": ["dockerfile", "github-actions", "custom.regex"],
   "automerge": true,
   "automergeType": "pr",
   "automergeStrategy": "squash",
@@ -9,56 +9,25 @@
     {
       "customType": "regex",
       "managerFilePatterns": [
-        "Containerfile$"
+        "/^Containerfile$/"
       ],
       "matchStrings": [
-          "apk add[^\\n]*? (?<depName>[a-z0-9._+-]+)=(?<currentValue>[0-9a-zA-Z._+-]+)"
+        "#\\s*renovate:\\s*datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\sENV .*?_VERSION=\"(?<currentValue>.*)\"\\s"
       ],
-      "datasourceTemplate": "repology",
-      "versioningTemplate": "loose",
-      "registryUrlTemplate": "https://repology.org",
-      "depNameTemplate": "{{{depName}}}"
-    },
-    {
-      "customType": "regex",
-      "managerFilePatterns": [
-        "Containerfile$"
-      ],
-      "matchStrings": [
-        "(?<depName>[a-z0-9._+-]+)@(?<currentValue>[0-9.]+)"
-      ],
-      "depNameTemplate": "{{{depName}}}",
-      "datasourceTemplate": "npm",
-      "versioningTemplate": "semver"
-    },
-    {
-      "customType": "regex",
-      "managerFilePatterns": [
-        "Containerfile$"
-      ],
-      "matchStrings": [
-        "ARG YARN_VERSION=(?<currentValue>[0-9.]+)"
-      ],
-      "depNameTemplate": "yarn",
-      "datasourceTemplate": "npm",
-      "versioningTemplate": "semver"
-    },
-    {
-      "customType": "regex",
-      "managerFilePatterns": [
-        "Containerfile$"
-      ],
-      "matchStrings": [
-        "ARG NVM_VERSION=(?<currentValue>[0-9.]+)"
-      ],
-      "depNameTemplate": "nvm",
-      "datasourceTemplate": "npm",
-      "versioningTemplate": "semver"
+      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     }
   ],
   "packageRules": [
     {
       "matchUpdateTypes": ["major"],
+      "matchBaseBranches": "master",
+      "enabled": false
+    },
+    {
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchUpdateTypes": ["minor"],
       "matchBaseBranches": "master",
       "enabled": false
     }

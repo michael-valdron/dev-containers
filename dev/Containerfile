@@ -1,19 +1,54 @@
 # Author: Michael Valdron
 FROM --platform=$BUILDPLATFORM docker.io/library/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659
 
-# Build Args
-ARG NVM_VERSION=0.40.4
-ARG YARN_VERSION=4.12.0
+# Package Envs
+# renovate: datasource=repology depName=alpine_3_23/bash versioning=loose
+ENV BASH_VERSION=5.3.3-r1
+# renovate: datasource=repology depName=alpine_3_23/curl versioning=loose
+ENV CURL_VERSION=8.17.0-r1
+# renovate: datasource=repology depName=alpine_3_23/zip versioning=loose
+ENV ZIP_VERSION=3.0-r13
+# renovate: datasource=repology depName=alpine_3_23/unzip versioning=loose
+ENV UNZIP_VERSION=6.0-r16
+# renovate: datasource=repology depName=alpine_3_23/gcompat versioning=loose
+ENV GCOMPAT_VERSION=1.1.0-r4
+# renovate: datasource=repology depName=alpine_3_23/openjdk25 versioning=loose
+ENV OPENJDK_VERSION=25.0.2_p10-r1
+# renovate: datasource=repology depName=alpine_3_23/clojure versioning=loose
+ENV CLOJURE_VERSION=1.12.3-r0
+# renovate: datasource=repology depName=alpine_3_23/rlwrap versioning=loose
+ENV RLWRAP_VERSION=0.47.1-r0
+# renovate: datasource=repology depName=alpine_3_23/leiningen versioning=loose
+ENV LEININGEN_VERSION=2.12.0-r0
+# renovate: datasource=repology depName=alpine_3_23/nodejs versioning=loose
+ENV NODE_VERSION=24.13.0-r1
+# renovate: datasource=repology depName=alpine_3_23/npm versioning=loose
+ENV NPM_VERSION=11.6.3-r0
+# renovate: datasource=repology depName=alpine_3_23/python3 versioning=loose
+ENV PYTHON_VERSION=3.12.12-r0
+# renovate: datasource=repology depName=alpine_3_23/py3-pip versioning=loose
+ENV PIP_VERSION=25.1.1-r1
+# renovate: datasource=repology depName=alpine_3_23/uv versioning=loose
+ENV UV_VERSION=0.9.26-r0
+# renovate: datasource=repology depName=alpine_3_23/go versioning=loose
+ENV GO_VERSION=1.25.7-r0
+# renovate: datasource=npm depName=corepack versioning=loose
+ENV COREPACK_VERSION=0.34.6
+# renovate: datasource=npm depName=nvm versioning=loose
+ENV NVM_VERSION=0.40.4
+# renovate: datasource=npm depName=yarn versioning=loose
+ENV YARN_VERSION=4.12.0
 
 # Install System Packages
-RUN apk update && apk add bash=5.3.3-r1 curl=8.17.0-r1 zip=3.0-r13 unzip=6.0-r16 gcompat=1.1.0-r4 \
-  openjdk25=25.0.2_p10-r1 clojure=1.12.3-r0 rlwrap=0.47.1-r0 leiningen=2.12.0-r0 leiningen-bash-completion=2.12.0-r0 \
-  nodejs=24.13.0-r1 npm=11.6.3-r0 \
-  python3=3.12.12-r0 py3-pip=25.1.1-r1 uv=0.9.26-r0 uv-bash-completion=0.9.26-r0 \
-  go=1.25.7-r0
+RUN apk update && apk add bash=${BASH_VERSION} curl=${CURL_VERSION} zip=${ZIP_VERSION} unzip=${UNZIP_VERSION} gcompat=${GCOMPAT_VERSION} \
+  openjdk25=${OPENJDK_VERSION} \
+  clojure=${CLOJURE_VERSION} rlwrap=${RLWRAP_VERSION} leiningen=${LEININGEN_VERSION} leiningen-bash-completion=${LEININGEN_VERSION} \
+  nodejs=${NODE_VERSION} npm=${NPM_VERSION} \
+  python3=${PYTHON_VERSION} py3-pip=${PIP_VERSION} uv=${UV_VERSION} uv-bash-completion=${UV_VERSION} \
+  go=${GO_VERSION}
 
 # Install corepack
-RUN npm install -g corepack@0.34.6
+RUN npm install -g corepack@${COREPACK_VERSION}
 
 # Create user
 RUN addgroup --gid 1000 dev \
