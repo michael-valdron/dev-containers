@@ -40,7 +40,7 @@ ENV NVM_VERSION="0.40.4"
 ENV YARN_VERSION="4.12.0"
 
 # Install System Packages
-RUN apk update && apk add bash=${BASH_VERSION} curl=${CURL_VERSION} zip=${ZIP_VERSION} unzip=${UNZIP_VERSION} gcompat=${GCOMPAT_VERSION} \
+RUN apk update && apk add --no-cache bash=${BASH_VERSION} curl=${CURL_VERSION} zip=${ZIP_VERSION} unzip=${UNZIP_VERSION} gcompat=${GCOMPAT_VERSION} \
   openjdk25=${OPENJDK_VERSION} \
   clojure=${CLOJURE_VERSION} rlwrap=${RLWRAP_VERSION} leiningen=${LEININGEN_VERSION} leiningen-bash-completion=${LEININGEN_VERSION} \
   nodejs=${NODE_VERSION} npm=${NPM_VERSION} \
