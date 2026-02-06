@@ -23,7 +23,7 @@ jobs:
         image:
           - owner: michaelvaldron
             name: dev
-    runs-on: ${{ matrix.include.runner }}
+    runs-on: ${{ matrix.runner }}
     permissions:
       contents: read
       packages: write
@@ -33,7 +33,7 @@ jobs:
     steps:
       - name: Prepare
         run: |
-          platform=${{ matrix.include.platform }}
+          platform=${{ matrix.platform }}
           echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV
 
       - name: Install cosign
@@ -67,7 +67,7 @@ jobs:
         uses: docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25 # v5.4.0
         with:
           context: ./${{ matrix.image.name }}
-          platforms: ${{ matrix.include.platform }}
+          platforms: ${{ matrix.platform }}
           push: ${{ github.event_name != 'pull_request' }}
           labels: ${{ steps.meta.outputs.labels }}
           tags: ${{ steps.meta.outputs.tags }}
