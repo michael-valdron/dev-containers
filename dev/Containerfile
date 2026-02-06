@@ -34,7 +34,7 @@ ENV UV_VERSION="0.9.26-r0"
 ENV GO_VERSION="1.25.7-r0"
 # renovate: datasource=npm depName=corepack versioning=loose
 ENV COREPACK_VERSION="0.34.6"
-# renovate: datasource=npm depName=nvm versioning=loose
+# renovate: datasource=github-releases depName=nvm-sh/nvm versioning=loose
 ENV NVM_VERSION="0.40.4"
 # renovate: datasource=npm depName=yarn versioning=loose
 ENV YARN_VERSION="4.12.0"
