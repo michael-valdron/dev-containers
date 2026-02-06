@@ -51,5 +51,8 @@ LABEL org.label-schema.build-date=${BUILD_DATE}
 LABEL org.label-schema.name="michaelvaldron/dev"
 LABEL org.label-schema.description="Base developer container image"
 
+# Reload user environments
+ENTRYPOINT ["bash", "-c", "source $SDKMAN_DIR/bin/sdkman-init.sh && source $NVM_DIR/nvm.sh && $@", "--"]
+
 # "CMD" runs an initial command on container startup
-CMD bash
+CMD ["/bin/bash"]
