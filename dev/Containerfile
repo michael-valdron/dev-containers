@@ -13,7 +13,7 @@ RUN apk update && apk add bash=5.3.3-r1 curl=8.17.0-r1 zip=3.0-r13 unzip=6.0-r16
   go=1.25.7-r0
 
 # Install corepack
-RUN npm install -g corepack
+RUN npm install -g corepack@0.34.6
 
 # Create user
 RUN addgroup --gid 1000 dev \
