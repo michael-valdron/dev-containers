@@ -18,7 +18,7 @@
     {
       "customType": "regex",
       "managerFilePatterns": [
-        "**/Containerfile"
+        "(^|/)Containerfile$"
       ],
       "matchStrings": [
         "#\\s*renovate:\\s*datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\sENV .*?_VERSION=\"(?<currentValue>.*)\"\\s"
