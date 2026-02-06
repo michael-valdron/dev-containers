@@ -73,7 +73,7 @@ jobs:
           platforms: ${{ matrix.platform }}
           push: ${{ github.event_name != 'pull_request' }}
           labels: ${{ steps.meta.outputs.labels }}
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: quay.io/${{ matrix.image.owner }}/${{ matrix.image.name }}
           outputs: type=image,push-by-digest=true,name-canonical=true,push=true
           file: ./${{ matrix.image.name }}/Containerfile
 
