@@ -1,0 +1,66 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "baseBranches": ["master"],
+  "enabledManagers": ["dockerfile", "github-actions", "custom.regex"],
+  "automerge": true,
+  "automergeType": "pr",
+  "automergeStrategy": "squash",
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "Containerfile$"
+      ],
+      "matchStrings": [
+          "apk add[^\\n]*? (?<depName>[a-z0-9._+-]+)=(?<currentValue>[0-9a-zA-Z._+-]+)"
+      ],
+      "datasourceTemplate": "repology",
+      "versioningTemplate": "loose",
+      "registryUrlTemplate": "https://repology.org",
+      "depNameTemplate": "{{{depName}}}"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "Containerfile$"
+      ],
+      "matchStrings": [
+        "(?<depName>[a-z0-9._+-]+)@(?<currentValue>[0-9.]+)"
+      ],
+      "depNameTemplate": "{{{depName}}}",
+      "datasourceTemplate": "npm",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "Containerfile$"
+      ],
+      "matchStrings": [
+        "ARG YARN_VERSION=(?<currentValue>[0-9.]+)"
+      ],
+      "depNameTemplate": "yarn",
+      "datasourceTemplate": "npm",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "Containerfile$"
+      ],
+      "matchStrings": [
+        "ARG NVM_VERSION=(?<currentValue>[0-9.]+)"
+      ],
+      "depNameTemplate": "nvm",
+      "datasourceTemplate": "npm",
+      "versioningTemplate": "semver"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["major"],
+      "matchBaseBranches": "master",
+      "enabled": false
+    }
+  ]
+}
