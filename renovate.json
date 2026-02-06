@@ -3,8 +3,14 @@
   "extends": [
     "config:recommended"
   ],
-  "baseBranches": ["master"],
-  "enabledManagers": ["dockerfile", "github-actions", "custom.regex"],
+  "baseBranchPatterns": [
+    "master"
+  ],
+  "enabledManagers": [
+    "dockerfile",
+    "github-actions",
+    "custom.regex"
+  ],
   "automerge": true,
   "automergeType": "pr",
   "automergeStrategy": "squash",
@@ -22,7 +28,9 @@
   ],
   "packageRules": [
     {
-      "matchUpdateTypes": ["major"],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "matchBaseBranches": "master",
       "enabled": false
     },
@@ -30,7 +38,9 @@
       "matchManagers": [
         "custom.regex"
       ],
-      "matchUpdateTypes": ["minor"],
+      "matchUpdateTypes": [
+        "minor"
+      ],
       "matchBaseBranches": "master",
       "enabled": false
     },
@@ -38,7 +48,9 @@
       "matchManagers": [
         "dockerfile"
       ],
-      "matchUpdateTypes": ["minor"],
+      "matchUpdateTypes": [
+        "minor"
+      ],
       "matchBaseBranches": "master",
       "enabled": false
     }
