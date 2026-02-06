@@ -1,5 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
   "baseBranches": ["master"],
   "enabledManagers": ["dockerfile", "github-actions", "custom.regex"],
   "automerge": true,
@@ -9,7 +12,7 @@
     {
       "customType": "regex",
       "managerFilePatterns": [
-        "/^Containerfile$/"
+        "Containerfile"
       ],
       "matchStrings": [
         "#\\s*renovate:\\s*datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\sENV .*?_VERSION=\"(?<currentValue>.*)\"\\s"
@@ -26,6 +29,14 @@
     {
       "matchManagers": [
         "custom.regex"
+      ],
+      "matchUpdateTypes": ["minor"],
+      "matchBaseBranches": "master",
+      "enabled": false
+    },
+    {
+      "matchManagers": [
+        "dockerfile"
       ],
       "matchUpdateTypes": ["minor"],
       "matchBaseBranches": "master",
