@@ -18,10 +18,11 @@ jobs:
         include:
           - platform: linux/amd64
             runner: ubuntu-latest
+            owner: michaelvaldron
+            name: dev
           - platform: linux/arm64
             runner: ubuntu-24.04-arm
-        image:
-          - owner: michaelvaldron
+            owner: michaelvaldron
             name: dev
     runs-on: ${{ matrix.runner }}
     permissions:
@@ -57,7 +58,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5.10.0
         with:
-          images: quay.io/${{ matrix.image.owner }}/${{ matrix.image.name }}
+          images: quay.io/${{ matrix.owner }}/${{ matrix.name }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0
@@ -69,13 +70,13 @@ jobs:
         id: build
         uses: docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25 # v5.4.0
         with:
-          context: ./${{ matrix.image.name }}
+          context: ./${{ matrix.name }}
           platforms: ${{ matrix.platform }}
           push: ${{ github.event_name != 'pull_request' }}
           labels: ${{ steps.meta.outputs.labels }}
-          tags: quay.io/${{ matrix.image.owner }}/${{ matrix.image.name }}
+          tags: quay.io/${{ matrix.owner }}/${{ matrix.name }}
           outputs: type=image,push-by-digest=true,name-canonical=true,push=true
-          file: ./${{ matrix.image.name }}/Containerfile
+          file: ./${{ matrix.name }}/Containerfile
 
       - name: Sign the published Docker image
         if: ${{ github.event_name != 'pull_request' }}
@@ -108,7 +109,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image:
+        include:
           - owner: michaelvaldron
             name: dev
     steps:
@@ -130,7 +131,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5.10.0
         with:
-          images: quay.io/${{ matrix.image.owner }}/${{ matrix.image.name }}
+          images: quay.io/${{ matrix.owner }}/${{ matrix.name }}
           tags: |
             type=ref,event=branch
             type=semver,pattern={{version}}
@@ -140,8 +141,8 @@ jobs:
         working-directory: ${{ runner.temp }}/digests
         run: |
           docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
-            $(printf 'quay.io/${{ matrix.image.owner }}/${{ matrix.image.name }}@sha256:%s ' *)
+            $(printf 'quay.io/${{ matrix.owner }}/${{ matrix.name }}@sha256:%s ' *)
 
       - name: Inspect image
         run: |
-          docker buildx imagetools inspect quay.io/${{ matrix.image.owner }}/${{ matrix.image.name }}:${{ steps.meta.outputs.version }}
+          docker buildx imagetools inspect quay.io/${{ matrix.owner }}/${{ matrix.name }}:${{ steps.meta.outputs.version }}
