@@ -21,7 +21,7 @@
         "(^|/)Containerfile$"
       ],
       "matchStrings": [
-        "#\\s*renovate:\\s*datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\sENV .*?_VERSION=\"(?<currentValue>.*)\"\\s"
+        "# renovate: datasource=(?<datasource>.*) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\nENV .+_VERSION=\"(?<currentValue>.*)\""
       ],
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     }

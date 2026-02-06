@@ -3,41 +3,41 @@ FROM --platform=$BUILDPLATFORM docker.io/library/alpine:3.23.3@sha256:25109184c7
 
 # Package Envs
 # renovate: datasource=repology depName=alpine_3_23/bash versioning=loose
-ENV BASH_VERSION=5.3.3-r1
+ENV BASH_VERSION="5.3.3-r1"
 # renovate: datasource=repology depName=alpine_3_23/curl versioning=loose
-ENV CURL_VERSION=8.17.0-r1
+ENV CURL_VERSION="8.17.0-r1"
 # renovate: datasource=repology depName=alpine_3_23/zip versioning=loose
-ENV ZIP_VERSION=3.0-r13
+ENV ZIP_VERSION="3.0-r13"
 # renovate: datasource=repology depName=alpine_3_23/unzip versioning=loose
-ENV UNZIP_VERSION=6.0-r16
+ENV UNZIP_VERSION="6.0-r16"
 # renovate: datasource=repology depName=alpine_3_23/gcompat versioning=loose
-ENV GCOMPAT_VERSION=1.1.0-r4
+ENV GCOMPAT_VERSION="1.1.0-r4"
 # renovate: datasource=repology depName=alpine_3_23/openjdk25 versioning=loose
-ENV OPENJDK_VERSION=25.0.2_p10-r1
+ENV OPENJDK_VERSION="25.0.2_p10-r1"
 # renovate: datasource=repology depName=alpine_3_23/clojure versioning=loose
-ENV CLOJURE_VERSION=1.12.3-r0
+ENV CLOJURE_VERSION="1.12.3-r0"
 # renovate: datasource=repology depName=alpine_3_23/rlwrap versioning=loose
-ENV RLWRAP_VERSION=0.47.1-r0
+ENV RLWRAP_VERSION="0.47.1-r0"
 # renovate: datasource=repology depName=alpine_3_23/leiningen versioning=loose
-ENV LEININGEN_VERSION=2.12.0-r0
+ENV LEININGEN_VERSION="2.12.0-r0"
 # renovate: datasource=repology depName=alpine_3_23/nodejs versioning=loose
-ENV NODE_VERSION=24.13.0-r1
+ENV NODE_VERSION="24.13.0-r1"
 # renovate: datasource=repology depName=alpine_3_23/npm versioning=loose
-ENV NPM_VERSION=11.6.3-r0
+ENV NPM_VERSION="11.6.3-r0"
 # renovate: datasource=repology depName=alpine_3_23/python3 versioning=loose
-ENV PYTHON_VERSION=3.12.12-r0
+ENV PYTHON_VERSION="3.12.12-r0"
 # renovate: datasource=repology depName=alpine_3_23/py3-pip versioning=loose
-ENV PIP_VERSION=25.1.1-r1
+ENV PIP_VERSION="25.1.1-r1"
 # renovate: datasource=repology depName=alpine_3_23/uv versioning=loose
-ENV UV_VERSION=0.9.26-r0
+ENV UV_VERSION="0.9.26-r0"
 # renovate: datasource=repology depName=alpine_3_23/go versioning=loose
-ENV GO_VERSION=1.25.7-r0
+ENV GO_VERSION="1.25.7-r0"
 # renovate: datasource=npm depName=corepack versioning=loose
-ENV COREPACK_VERSION=0.34.6
+ENV COREPACK_VERSION="0.34.6"
 # renovate: datasource=npm depName=nvm versioning=loose
-ENV NVM_VERSION=0.40.4
+ENV NVM_VERSION="0.40.4"
 # renovate: datasource=npm depName=yarn versioning=loose
-ENV YARN_VERSION=4.12.0
+ENV YARN_VERSION="4.12.0"
 
 # Install System Packages
 RUN apk update && apk add bash=${BASH_VERSION} curl=${CURL_VERSION} zip=${ZIP_VERSION} unzip=${UNZIP_VERSION} gcompat=${GCOMPAT_VERSION} \
