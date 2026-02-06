@@ -1,10 +1,10 @@
 #!/bin/bash
 
-BASE_DOCKERFILE="Dockerfile"
+BASE_CONTAINERFILE="Containerfile"
 DEST_LOC=$1
 
-echo "Copying Docker template to '${DEST_LOC}'..."
+echo "Copying container build template to '${DEST_LOC}'..."
 
-cp -v $BASE_DOCKERFILE $DEST_LOC
+cp -v $BASE_CONTAINERFILE $DEST_LOC
 
 echo "Copied!"
