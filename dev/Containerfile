@@ -1,37 +1,33 @@
 # Author: Michael Valdron
-FROM docker.io/library/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659
+FROM docker.io/library/debian:13.3-slim@sha256:f6e2cfac5cf956ea044b4bd75e6397b4372ad88fe00908045e9a0d21712ae3ba
 
 # Package Envs
-# renovate: datasource=repology depName=alpine_3_23/bash versioning=loose
-ENV BASH_VERSION="5.3.3-r1"
-# renovate: datasource=repology depName=alpine_3_23/curl versioning=loose
-ENV CURL_VERSION="8.17.0-r1"
-# renovate: datasource=repology depName=alpine_3_23/zip versioning=loose
-ENV ZIP_VERSION="3.0-r13"
-# renovate: datasource=repology depName=alpine_3_23/unzip versioning=loose
-ENV UNZIP_VERSION="6.0-r16"
-# renovate: datasource=repology depName=alpine_3_23/gcompat versioning=loose
-ENV GCOMPAT_VERSION="1.1.0-r4"
-# renovate: datasource=repology depName=alpine_3_23/openjdk25 versioning=loose
-ENV OPENJDK_VERSION="25.0.2_p10-r1"
-# renovate: datasource=repology depName=alpine_3_23/clojure versioning=loose
-ENV CLOJURE_VERSION="1.12.3-r0"
-# renovate: datasource=repology depName=alpine_3_23/rlwrap versioning=loose
-ENV RLWRAP_VERSION="0.47.1-r0"
-# renovate: datasource=repology depName=alpine_3_23/leiningen versioning=loose
-ENV LEININGEN_VERSION="2.12.0-r0"
-# renovate: datasource=repology depName=alpine_3_23/nodejs versioning=loose
-ENV NODE_VERSION="24.13.0-r1"
-# renovate: datasource=repology depName=alpine_3_23/npm versioning=loose
-ENV NPM_VERSION="11.6.3-r0"
-# renovate: datasource=repology depName=alpine_3_23/python3 versioning=loose
-ENV PYTHON_VERSION="3.12.12-r0"
-# renovate: datasource=repology depName=alpine_3_23/py3-pip versioning=loose
-ENV PIP_VERSION="25.1.1-r1"
-# renovate: datasource=repology depName=alpine_3_23/uv versioning=loose
-ENV UV_VERSION="0.9.26-r0"
-# renovate: datasource=repology depName=alpine_3_23/go versioning=loose
-ENV GO_VERSION="1.25.7-r0"
+# renovate: datasource=repology depName=debian_13/curl versioning=loose
+ENV CURL_VERSION="8.14.1-2+deb13u2"
+# renovate: datasource=repology depName=debian_13/zip versioning=loose
+ENV ZIP_VERSION="3.0-15"
+# renovate: datasource=repology depName=debian_13/unzip versioning=loose
+ENV UNZIP_VERSION="6.0-29"
+# renovate: datasource=repology depName=debian_13/openjdk-25-jdk versioning=loose
+ENV OPENJDK_VERSION="25.0.2+10-1~deb13u2"
+# renovate: datasource=repology depName=debian_13/clojure versioning=loose
+ENV CLOJURE_VERSION="1.12.0-1"
+# renovate: datasource=repology depName=debian_13/rlwrap versioning=loose
+ENV RLWRAP_VERSION="0.46.1-1+b1"
+# renovate: datasource=repology depName=debian_13/leiningen versioning=loose
+ENV LEININGEN_VERSION="2.10.0-5"
+# renovate: datasource=repology depName=debian_13/nodejs versioning=loose
+ENV NODE_VERSION="20.19.2+dfsg-1"
+# renovate: datasource=repology depName=debian_13/npm versioning=loose
+ENV NPM_VERSION="9.2.0~ds1-3"
+# renovate: datasource=repology depName=debian_13/python3 versioning=loose
+ENV PYTHON_VERSION="3.13.5-1"
+# renovate: datasource=repology depName=debian_13/python3-pip versioning=loose
+ENV PIP_VERSION="25.1.1+dfsg-1"
+# renovate: datasource=repology depName=debian_13/golang-1.24 versioning=loose
+ENV GO_VERSION="1.24.4-1"
+# renovate: datasource=pypi depName=uv versioning=loose
+ENV UV_VERSION="0.9.26"
 # renovate: datasource=npm depName=corepack versioning=loose
 ENV COREPACK_VERSION="0.34.6"
 # renovate: datasource=github-releases depName=nvm-sh/nvm versioning=loose
@@ -40,12 +36,12 @@ ENV NVM_VERSION="0.40.4"
 ENV YARN_VERSION="4.12.0"
 
 # Install System Packages
-RUN apk update && apk add --no-cache bash=${BASH_VERSION} curl=${CURL_VERSION} zip=${ZIP_VERSION} unzip=${UNZIP_VERSION} gcompat=${GCOMPAT_VERSION} \
-  openjdk25=${OPENJDK_VERSION} \
-  clojure=${CLOJURE_VERSION} rlwrap=${RLWRAP_VERSION} leiningen=${LEININGEN_VERSION} leiningen-bash-completion=${LEININGEN_VERSION} \
+RUN apt update -y && apt install -y curl=${CURL_VERSION} zip=${ZIP_VERSION} unzip=${UNZIP_VERSION} \
+  openjdk-25-jre=${OPENJDK_VERSION} openjdk-25-jdk=${OPENJDK_VERSION} openjdk-25-dbg=${OPENJDK_VERSION} \
+  clojure=${CLOJURE_VERSION} rlwrap=${RLWRAP_VERSION} leiningen=${LEININGEN_VERSION} \
   nodejs=${NODE_VERSION} npm=${NPM_VERSION} \
-  python3=${PYTHON_VERSION} py3-pip=${PIP_VERSION} uv=${UV_VERSION} uv-bash-completion=${UV_VERSION} \
-  go=${GO_VERSION}
+  python3=${PYTHON_VERSION} python3-pip=${PIP_VERSION} \
+  golang=2:1.24~2 golang-1.24=${GO_VERSION}
 
 # Install corepack
 RUN npm install -g corepack@${COREPACK_VERSION}
@@ -60,6 +56,12 @@ RUN mkdir -p /project && chown -R dev:dev /project
 # Set user
 USER 1000
 
+# Set user install bin directory to path
+ENV PATH="~/.local/bin:$PATH"
+
+# Install uv
+RUN curl -LsSf https://astral.sh/uv/${UV_VERSION}/install.sh | sh
+
 # Download and install nvm
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh | bash
 ENV NVM_DIR=/home/dev/.nvm
@@ -72,8 +74,8 @@ RUN corepack enable && corepack prepare yarn@${YARN_VERSION} --activate
 ENV SDKMAN_DIR=/home/dev/.sdkman
 RUN curl -s "https://get.sdkman.io?ci=true" | bash
 
-# Set user install bin directory to path
-ENV PATH="~/.local/bin:$PATH"
+# Set clojure alias
+RUN echo "alias clj='clojure'" >> ~/.bashrc
 
 # Set working directory
 WORKDIR /project
