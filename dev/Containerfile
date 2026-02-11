@@ -12,8 +12,6 @@ ENV UNZIP_VERSION="6.0-29"
 ENV OPENJDK_VERSION="25.0.2+10-1~deb13u2"
 # renovate: datasource=repology depName=debian_13/clojure versioning=loose
 ENV CLOJURE_VERSION="1.12.0-1"
-# renovate: datasource=repology depName=debian_13/rlwrap versioning=loose
-ENV RLWRAP_VERSION="0.46.1-1+b1"
 # renovate: datasource=repology depName=debian_13/leiningen versioning=loose
 ENV LEININGEN_VERSION="2.10.0-5"
 # renovate: datasource=repology depName=debian_13/nodejs versioning=loose
@@ -38,7 +36,7 @@ ENV YARN_VERSION="4.12.0"
 # Install System Packages
 RUN apt update -y && apt install -y curl=${CURL_VERSION} zip=${ZIP_VERSION} unzip=${UNZIP_VERSION} \
   openjdk-25-jre=${OPENJDK_VERSION} openjdk-25-jdk=${OPENJDK_VERSION} openjdk-25-dbg=${OPENJDK_VERSION} \
-  clojure=${CLOJURE_VERSION} rlwrap=${RLWRAP_VERSION} leiningen=${LEININGEN_VERSION} \
+  clojure=${CLOJURE_VERSION} leiningen=${LEININGEN_VERSION} \
   nodejs=${NODE_VERSION} npm=${NPM_VERSION} \
   python3=${PYTHON_VERSION} python3-pip=${PIP_VERSION} \
   golang=2:1.24~2 golang-1.24=${GO_VERSION}
